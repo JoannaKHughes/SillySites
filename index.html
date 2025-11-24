@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANGER</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .images {
+            position: relative;
+            width: 200px;
+            height: 100px;
+        }
+        .stationary-image {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #999;
+        }
+        .moving-image {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 100px;
+            top: 0;
+            background: #bbb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #999;
+            transition: transform 3s ease, left 1s ease, top 2s ease;
+        }
+        #resetButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        /* DEEZ NUTZ overlay */
+        .nutz-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .nutz-overlay.active {
+            display: flex;
+        }
+        
+        .nutz {
+            font-size: 15vw;
+            font-weight: 900;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            letter-spacing: 0.1em;
+            text-align: center;
+            animation: wiggle 0.5s ease-in-out infinite, colorChange 2s linear infinite;
+            transform-origin: center;
+            text-shadow: 
+                0 0 20px currentColor,
+                0 0 40px currentColor,
+                0 0 60px currentColor;
+        }
+        
+        @keyframes wiggle {
+            0%, 100% { 
+                transform: rotate(-5deg) scale(1);
+            }
+            25% { 
+                transform: rotate(5deg) scale(1.05);
+            }
+            50% { 
+                transform: rotate(-5deg) scale(0.95);
+            }
+            75% { 
+                transform: rotate(5deg) scale(1.05);
+            }
+        }
+        
+        @keyframes colorChange {
+            0% { color: #ff0000; }
+            14% { color: #ff7f00; }
+            28% { color: #ffff00; }
+            42% { color: #00ff00; }
+            56% { color: #0000ff; }
+            70% { color: #8b00ff; }
+            84% { color: #ff00ff; }
+            100% { color: #ff0000; }
+        }
+        
+        @media (max-width: 600px) {
+            .nutz {
+                font-size: 12vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Click Guy For Anger</h1>
+    <div class="container">
+        <div class="images">
+            <div class="stationary-image" id="buttonImage">GUY</div>
+            <div class="moving-image" id="rotatingImage">TABLE</div>
+        </div>
+    </div>
+    <button id="resetButton">Reset</button>
+    
+    <div class="nutz-overlay" id="nutzOverlay">
+        <div class="nutz">DEEZ NUTZ</div>
+    </div>
+    
+    <script>
+        const buttonImage = document.getElementById('buttonImage');
+        const rotatingImage = document.getElementById('rotatingImage');
+        const resetButton = document.getElementById('resetButton');
+        const nutzOverlay = document.getElementById('nutzOverlay');
+        
+        rotatingImage.style.left = '100px';
+        rotatingImage.style.top = '0px';
+        
+        const rotateAndMove = () => {
+            console.log('Rotating and moving the image');
+            rotatingImage.style.transform = 'rotate(360deg)';
+            rotatingImage.style.left = '300px';
+            rotatingImage.style.top = '-100px';
+            
+            // Show DEEZ NUTZ after a brief delay
+            setTimeout(() => {
+                nutzOverlay.classList.add('active');
+            }, 1000);
+        };
+        
+        const resetImage = () => {
+            console.log('Resetting the image');
+            rotatingImage.style.transform = 'rotate(0deg)';
+            rotatingImage.style.left = '100px';
+            rotatingImage.style.top = '0px';
+            nutzOverlay.classList.remove('active');
+        };
+        
+        buttonImage.addEventListener('click', () => {
+            console.log('Button clicked');
+            rotateAndMove();
+        });
+        
+        resetButton.addEventListener('click', () => {
+            console.log('Reset button clicked');
+            resetImage();
+        });
+        
+        buttonImage.addEventListener('touchend', (event) => {
+            event.preventDefault();
+            console.log('Touch on button');
+            rotateAndMove();
+        });
+        
+        resetButton.addEventListener('touchend', (event) => {
+            event.preventDefault();
+            console.log('Touch on reset button');
+            resetImage();
+        });
+    </script>
+</body>
+</html>
